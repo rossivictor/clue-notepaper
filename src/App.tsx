@@ -1,35 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import useStore from "./store.ts";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const store = useStore((state) => state);
+  const versionName = store.version?.name;
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <button onClick={() => store.setVersion("detetive")}>
+          Detetive (clássico)
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+        <button onClick={() => store.setVersion("umCrimeDesafiador")}>
+          Detetive: Um Crime Desafiador
+        </button>
+        <button onClick={() => store.setVersion("procurandoEmHogwarts")}>
+          Detetive: Procurando em Hogwarts
+        </button>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+
+      {store.version && (
+        <>
+          <h1>{versionName}</h1>
+          <div className="card">
+            <h2>Suspeitos</h2>
+            <ul>
+              {store.version?.cards.suspects.map((suspect) => (
+                <li key={suspect.id}>
+                  <input
+                    type="checkbox"
+                    name={suspect.id}
+                    onChange={() => store.toggleCard("suspects", suspect.id)}
+                  />{" "}
+                  {suspect.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </>
+      )}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
