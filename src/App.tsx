@@ -1,45 +1,58 @@
 import "./App.css";
-import useStore from "./store.ts";
+import useStore from "./store";
 
 function App() {
-  const store = useStore((state) => state);
-  const versionName = store.version?.name;
+  const {
+    data,
+    activeVersionId,
+    setActiveVersion,
+    toggleCard,
+    resetActiveVersion,
+  } = useStore((state) => state);
+
+  const activeVersion = activeVersionId ? data[activeVersionId] : null;
 
   return (
-    <>
-      <div className="card">
-        <button onClick={() => store.setVersion("detetive")}>
-          Detetive (clássico)
-        </button>
-        <button onClick={() => store.setVersion("umCrimeDesafiador")}>
-          Detetive: Um Crime Desafiador
-        </button>
-        <button onClick={() => store.setVersion("procurandoEmHogwarts")}>
-          Detetive: Procurando em Hogwarts
-        </button>
+    <div>
+      <h1>Clue Notepaper</h1>
+
+      {/* Botões para selecionar a versão */}
+      <div>
+        {Object.keys(data).map((key) => (
+          <button key={key} onClick={() => setActiveVersion(key)}>
+            {data[key].name}
+          </button>
+        ))}
       </div>
 
-      {store.version && (
-        <>
-          <h1>{versionName}</h1>
-          <div className="card">
-            <h2>Suspeitos</h2>
-            <ul>
-              {store.version?.cards.suspects.map((suspect) => (
-                <li key={suspect.id}>
-                  <input
-                    type="checkbox"
-                    name={suspect.id}
-                    onChange={() => store.toggleCard("suspects", suspect.id)}
-                  />{" "}
-                  {suspect.name}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </>
+      {/* Exibe os dados da versão ativa */}
+      {activeVersion ? (
+        <div>
+          <h2>{activeVersion.name}</h2>
+          <p>{activeVersion.description}</p>
+
+          <h3>Suspects:</h3>
+          <ul>
+            {activeVersion.cards.suspects.map((suspect) => (
+              <li
+                key={suspect.id}
+                style={{
+                  textDecoration: suspect.isChecked ? "line-through" : "none",
+                  cursor: "pointer",
+                }}
+                onClick={() => toggleCard("suspects", suspect.id)}
+              >
+                {suspect.name}
+              </li>
+            ))}
+          </ul>
+
+          <button onClick={resetActiveVersion}>Reset Progress</button>
+        </div>
+      ) : (
+        <p>Please select a version to start.</p>
       )}
-    </>
+    </div>
   );
 }
 

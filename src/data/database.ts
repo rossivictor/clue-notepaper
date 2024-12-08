@@ -129,7 +129,7 @@ export const versions: Record<string, Version> = {
   umCrimeDesafiador: {
     metainfo: {
       name: "Detetive: Um Crime Desafiador",
-      id: "um-crime-desafiador",
+      id: "umCrimeDesafiador",
       description: "Versão mais moderna do jogo, lançada no 🇧🇷",
       examples: "Tony Gourmet, hotel, veneno, etc",
     },
@@ -267,7 +267,7 @@ export const versions: Record<string, Version> = {
   procurandoEmHogwarts: {
     metainfo: {
       name: "Detetive: Procurando em Hogwarts",
-      id: "procurando-em-hogwarts",
+      id: "procurandoEmHogwarts",
       description: "Versão temática do universo de Harry Potter",
       examples: "Draco Malfoy, expelliarmus, sala de poções etc",
     },
