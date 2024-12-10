@@ -5,9 +5,10 @@ import { versions } from "./data/database"; // Dados estáticos de todas as vers
 interface Category {
   name: string;
   id: string;
-  isChecked?: boolean; // Estado de "visto" ou "não visto"
+  isChecked?: boolean;
   occupation?: string;
   color?: string;
+  originalIndex?: number;
 }
 
 interface Cards {
@@ -35,6 +36,8 @@ interface Store {
     cardId: string
   ) => void; // Alterna o estado isChecked de uma carta
   resetActiveVersion: () => void; // Reseta o progresso da versão ativa
+  sortCardsBySeenStatus: () => void;
+  setOriginalIndexes: () => void;
 }
 
 const useStore = create<Store>()(
@@ -67,17 +70,18 @@ const useStore = create<Store>()(
 
       // Define a versão ativa
       setActiveVersion: (versionId: string) => {
-        const { data } = get();
+        const { data, setOriginalIndexes } = get();
         if (!data[versionId]) {
           throw new Error(`Version "${versionId}" not found.`);
         }
 
         set({ activeVersionId: versionId });
+        setOriginalIndexes();
       },
 
       // Alterna o estado "isChecked" de uma carta
       toggleCard: (category, cardId) => {
-        const { activeVersionId, data } = get();
+        const { activeVersionId, data, sortCardsBySeenStatus } = get();
         if (!activeVersionId) return;
 
         const version = data[activeVersionId];
@@ -99,11 +103,13 @@ const useStore = create<Store>()(
             [activeVersionId]: updatedVersion,
           },
         });
+
+        sortCardsBySeenStatus();
       },
 
       // Reseta o progresso da versão ativa
       resetActiveVersion: () => {
-        const { activeVersionId, data } = get();
+        const { activeVersionId, data, sortCardsBySeenStatus } = get();
         if (!activeVersionId) return;
 
         const version = data[activeVersionId];
@@ -125,6 +131,66 @@ const useStore = create<Store>()(
             [activeVersionId]: resetVersion,
           },
         });
+
+        sortCardsBySeenStatus();
+      },
+      sortCardsBySeenStatus: () => {
+        const { activeVersionId, data } = get();
+        if (!activeVersionId) return;
+
+        const version = data[activeVersionId];
+
+        const sortCards = (items: Category[]) => {
+          return [...items].sort((a, b) => {
+            if (a.isChecked === b.isChecked) {
+              return (a.originalIndex ?? 0) - (b.originalIndex ?? 0);
+            }
+            return Number(a.isChecked) - Number(b.isChecked);
+          });
+        };
+
+        const sortedVersion = {
+          ...version,
+          cards: {
+            suspects: sortCards(version.cards.suspects),
+            weapons: sortCards(version.cards.weapons),
+            rooms: sortCards(version.cards.rooms),
+          },
+        };
+        set({
+          data: {
+            ...data,
+            [activeVersionId]: sortedVersion,
+          },
+        });
+      },
+      setOriginalIndexes: () => {
+        const { data } = get();
+
+        const setIndexes = (items: Category[]) => {
+          return items.map((item, index) => ({
+            ...item,
+            originalIndex: index,
+          }));
+        };
+
+        const initializedData = Object.keys(data).reduce(
+          (acc: { [versionId: string]: Version }, versionId) => {
+            const version = data[versionId];
+            acc[versionId] = {
+              ...version,
+              cards: {
+                suspects: setIndexes(version.cards.suspects),
+                weapons: setIndexes(version.cards.weapons),
+                rooms: setIndexes(version.cards.rooms),
+              },
+            };
+            return acc;
+          },
+          {}
+        );
+
+        set({ data: initializedData });
       },
     }),
     {
