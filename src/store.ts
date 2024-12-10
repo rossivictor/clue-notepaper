@@ -30,7 +30,7 @@ interface Store {
     [versionId: string]: Version;
   };
   activeVersionId: string | null; // ID da versão ativa (ou null se nenhuma estiver selecionada)
-  setActiveVersion: (versionId: string) => void; // Alterna a versão ativa
+  setActiveVersion: (versionId: string | null) => void; // Alterna a versão ativa
   toggleCard: (
     category: "suspects" | "weapons" | "rooms",
     cardId: string
@@ -69,11 +69,8 @@ const useStore = create<Store>()(
       activeVersionId: null, // Nenhuma versão ativa no início
 
       // Define a versão ativa
-      setActiveVersion: (versionId: string) => {
-        const { data, setOriginalIndexes } = get();
-        if (!data[versionId]) {
-          throw new Error(`Version "${versionId}" not found.`);
-        }
+      setActiveVersion: (versionId: string | null) => {
+        const { setOriginalIndexes } = get();
 
         set({ activeVersionId: versionId });
         setOriginalIndexes();
