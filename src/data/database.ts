@@ -26,7 +26,7 @@ export const versions: Record<string, Version> = {
     metainfo: {
       name: "Detetive (clássico)",
       id: "detetive",
-      description: "Versão tradicional do jogo, lançada no 🇧🇷",
+      description: "A versão mais clássica e tradicional do jogo",
       examples: "Coronel Mostarda, chave inglesa, etc",
     },
     suspects: [
@@ -128,9 +128,10 @@ export const versions: Record<string, Version> = {
   },
   umCrimeDesafiador: {
     metainfo: {
-      name: "Detetive: Um Crime Desafiador",
+      name: "Um Crime Desafiador",
       id: "umCrimeDesafiador",
-      description: "Versão mais moderna do jogo, lançada no 🇧🇷",
+      description:
+        "Uma versão mais moderna do jogo que inclui um aplicativo com pistas",
       examples: "Tony Gourmet, hotel, veneno, etc",
     },
     suspects: [
@@ -266,10 +267,10 @@ export const versions: Record<string, Version> = {
   },
   procurandoEmHogwarts: {
     metainfo: {
-      name: "Detetive: Procurando em Hogwarts",
+      name: "Procurando em Hogwarts",
       id: "procurandoEmHogwarts",
-      description: "Versão temática do universo de Harry Potter",
-      examples: "Draco Malfoy, expelliarmus, sala de poções etc",
+      description: "Versão temática inspirada no universo de Harry Potter",
+      examples: "Draco Malfoy, vassoura, sala precisa etc",
     },
     suspects: [
       {
