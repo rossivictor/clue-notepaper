@@ -23,6 +23,8 @@ function App() {
   function copyPixCode(
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void {
+    const eventTarget = event.target as HTMLButtonElement;
+    console.log(eventTarget);
     const pixKey = "64f08341-7abO-4f5a-9bde-bea6af131231";
     navigator.clipboard
       .writeText(pixKey)
@@ -37,6 +39,8 @@ function App() {
   function goToPayPal(
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void {
+    const eventTarget = event.target as HTMLButtonElement;
+    console.log(eventTarget);
     window.open(
       "https://www.paypal.com/donate/?business=7959XBD9WJ64S&no_recurring=0&item_name=Que+legal+que+voc%C3%AA+est%C3%A1+disposto+a+colaborar+com+o+projeto%21+%F0%9F%98%80%0AEu+e+os+demais+usu%C3%A1rios+agradecemos+de+cora%C3%A7%C3%A3o%21+%F0%9F%AB%B6%F0%9F%8F%BB&currency_code=BRL",
       "_blank"
@@ -44,7 +48,9 @@ function App() {
   }
 
   function copyBitcoinCode(event: React.MouseEvent<HTMLButtonElement>): void {
+    const eventTarget = event.target as HTMLButtonElement;
     const bitcoinCode = "1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX";
+    console.log(eventTarget);
     navigator.clipboard
       .writeText(bitcoinCode)
       .then(() => {
