@@ -224,7 +224,14 @@ button:focus-visible {
     }
 
     button {
-      @apply block mx-auto my-4;
+      &.donate-btn {
+        @apply block mx-auto my-4 p-0 px-10 w-auto bg-white/80;
+        img {
+          @apply mx-auto my-4;
+          height: 1.25em;
+          width: auto;
+        }
+      }
     }
   }
 }

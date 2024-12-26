@@ -20,6 +20,41 @@ function App() {
     }
   };
 
+  function copyPixCode(
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void {
+    const pixKey = "64f08341-7abO-4f5a-9bde-bea6af131231";
+    navigator.clipboard
+      .writeText(pixKey)
+      .then(() => {
+        alert("Chave Pix copiada para a área de transferência!");
+      })
+      .catch((err) => {
+        console.error("Erro ao copiar a chave Pix: ", err);
+      });
+  }
+
+  function goToPayPal(
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void {
+    window.open(
+      "https://www.paypal.com/donate/?business=7959XBD9WJ64S&no_recurring=0&item_name=Que+legal+que+voc%C3%AA+est%C3%A1+disposto+a+colaborar+com+o+projeto%21+%F0%9F%98%80%0AEu+e+os+demais+usu%C3%A1rios+agradecemos+de+cora%C3%A7%C3%A3o%21+%F0%9F%AB%B6%F0%9F%8F%BB&currency_code=BRL",
+      "_blank"
+    );
+  }
+
+  function copyBitcoinCode(event: React.MouseEvent<HTMLButtonElement>): void {
+    const bitcoinCode = "1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX";
+    navigator.clipboard
+      .writeText(bitcoinCode)
+      .then(() => {
+        alert("Endereço Bitcoin copiado para a área de transferência!");
+      })
+      .catch((err) => {
+        console.error("Erro ao copiar o endereço Bitcoin: ", err);
+      });
+  }
+
   return (
     <div id="app" className="min-h-screen">
       {!activeVersion && (
@@ -50,7 +85,13 @@ function App() {
                 <span className="text-base">{data[key].examples}</span>
               </button>
             ))}
-            <button onClick={() => openModal("addVersionModal")}>
+            <button
+              onClick={() =>
+                window.open(
+                  "https://docs.google.com/forms/d/e/1FAIpQLSclylraQOjWLH-kmS7KaL2JejCgNvJlm3I0tzfmtgwaKhzAmw/viewform?usp=dialog"
+                )
+              }
+            >
               <img
                 src="covers/_noVersion.png"
                 alt="Adicionar versão"
@@ -168,14 +209,18 @@ function App() {
             📝 Regras oficiais do jogo Detetive
           </a> */}
         <button
-          className="inline-block uppercase font-bold text-white/70 w-auto text-base"
+          className="inline-block me-4 uppercase font-bold text-white/70 w-auto text-base"
           onClick={() => openModal("donateModal")}
         >
           🤑 Contribua com o projeto
         </button>
         <button
-          className="inline-block uppercase font-bold text-white/70 w-auto text-base"
-          onClick={() => openModal("addVersionModal")}
+          className="inline-block me-4 uppercase font-bold text-white/70 w-auto text-base"
+          onClick={() =>
+            window.open(
+              "https://docs.google.com/forms/d/e/1FAIpQLSclylraQOjWLH-kmS7KaL2JejCgNvJlm3I0tzfmtgwaKhzAmw/viewform?usp=dialog"
+            )
+          }
         >
           🛟 Não encontrou a versão que quer jogar?
         </button>
@@ -188,6 +233,7 @@ function App() {
           Essa ação não poderá ser desfeita.
         </p>
         <button
+          className="mb-2"
           onClick={() => {
             resetActiveVersion();
             document
@@ -198,6 +244,7 @@ function App() {
           Sim, apagar
         </button>
         <button
+          className="mb-2"
           onClick={() =>
             document
               .getElementById("eraseConfirmationModal")
@@ -214,18 +261,25 @@ function App() {
           Se você gostou da ideia e quer ajudar a manter o projeto, você pode
           fazer uma doação de qualquer valor.
         </p>
-        <p>
-          <strong>PIX:</strong> 123.456.789-00
-        </p>
-        <p>
-          <strong>PayPal:</strong>{" "}
-          <a href="https://paypal.me/example" target="_blank">
-            paypal.me/example
-          </a>
-        </p>
-        <p>
-          <strong>Bitcoin:</strong> 1D2C3F4G5H6J7K8L9M0N
-        </p>
+        <button className="donate-btn" onClick={copyPixCode}>
+          <img src="donate/logo-pix.png" alt="Pix" width={80} height={80} />
+        </button>
+        <button className="donate-btn" onClick={goToPayPal}>
+          <img
+            src="donate/logo-paypal.png"
+            alt="PayPal"
+            width={80}
+            height={80}
+          />
+        </button>
+        <button className="donate-btn" onClick={copyBitcoinCode}>
+          <img
+            src="donate/logo-bitcoin.png"
+            alt="Bitcoin"
+            width={80}
+            height={80}
+          />
+        </button>
         <button
           onClick={() =>
             document.getElementById("donateModal")?.classList.add("hidden")
