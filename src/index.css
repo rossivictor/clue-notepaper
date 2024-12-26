@@ -235,7 +235,7 @@ button:focus-visible {
 
 .category-container {
   @apply text-black/70 w-auto;
-  background: url("bg-category-container.jpg") repeat-y center top;
+  background: url("/bg-category-container.jpg") repeat-y center top;
   background-size: 100% auto;
   box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.5);
   font-family: "Chilanka", cursive;
