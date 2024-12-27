@@ -35,7 +35,7 @@ Follow these steps to run the project locally:
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/rossivictor/clue-notepaper.git
+   git clone https://github.com/your-username/clue-notepaper.git
    ```
 2. Navigate to the project directory:
    ```bash
